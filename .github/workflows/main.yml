@@ -18,6 +18,7 @@ jobs:
       with:
         azcliversion: 2.0.72
         inlineScript: |
+            cd src
             az storage blob upload-batch --account-name endeavourtoday -d '$web' -s .
     - name: Purge CDN endpoint
       uses: azure/CLI@v1
