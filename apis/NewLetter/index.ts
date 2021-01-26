@@ -1,10 +1,11 @@
 import { AzureFunction, Context, HttpRequest } from "@azure/functions";
 import { config } from 'dotenv';
+import * as ejs from "ejs";
 import { MongoClient, MongoError } from "mongodb";
+import { v4 } from 'uuid';
 import isEmail from 'validator/lib/isEmail';
-import { fromEmail, link, dbName, website, headers } from "../Form/constants";
+import { dbName, fromEmail, headers, linkURL, rootWeb } from "../Form/constants";
 import sgMail = require('@sendgrid/mail');
-import { v4 } from 'uuid'
 import querystring = require('querystring');
 
 
@@ -12,23 +13,35 @@ const httpTrigger: AzureFunction = async function (context: Context, req: HttpRe
     config();
     const body = querystring.parse(req.body);
     const client = new MongoClient(process.env.MONGO_URI);
-    const email = body.email as string;
+    var email = body.email as string;
 
     if (email && isEmail(email)) {
         try {
+            email = email.toLowerCase();
+            const code = v4();
             await client.connect();
             const db = client.db(dbName);
             const newletter = db.collection(dbName);
-            const code = v4();
-            await newletter.insertOne({ _id: email, verified: false, code, created: new Date() })
+            await newletter.insertOne({ _id: email, verified: false, code, created: new Date() });
+            const link = linkURL + "?code=" + code;
+            const text = await ejs.renderFile("./NewLetter/verEmailText.ejs", {
+                link: link,
+                email: email
+            });
+
+            // const html = await ejs.renderFile("./NewLetter/verifyEmail.ejs", {
+            //     link: link,
+            //     email: email
+            // });
 
             if (process.env.SENDGRID_API_KEY) {
                 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
                 const msg = {
                     from: fromEmail,
                     to: email,
-                    subject: `NewsLetter subscription to ${website}`,
-                    text: `click this link to verify newsletter ${link + "?code=" + code}`,
+                    subject: `NewsLetter subscription to ${rootWeb}`,
+                    text,
+                    // html
                 };
                 try {
                     await sgMail.send(msg);
