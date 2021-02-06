@@ -9,8 +9,9 @@ import querystring = require('querystring');
 const httpTrigger: AzureFunction = async function (context: Context, req: HttpRequest): Promise<void> {
     config();
     const body = querystring.parse(req.body);
-    const email = body.email as string;
+    var email = body.email as string;
     if (process.env.SENDGRID_API_KEY && email && isEmail(email)) {
+        email = email.toLowerCase();
         const name = body.name ?? email;
 
         const subject = body.subject ?? "";

@@ -128,5 +128,43 @@
     }
   });
 
+  // Handle form submitions
+  var subfrm = $('#subscribeForm');
+  subfrm.submit(function (e) {
+      e.preventDefault();
+      formAction(subfrm, $('#subscribeForm .formmsg'), 'Thank you for Subscribing, Please check your email and confirm the Subscribtion!')
+  });
+
+  var msgfrm = $('#msgForm');
+  msgfrm.submit(function (e) {
+      e.preventDefault();
+      formAction(msgfrm, $('#msgForm .formmsg'), 'Your message has been sent. Thank you!')
+  });
+
+  function formAction(ele, mele, smsg) {
+    $.ajax({
+        type: ele.attr('method'),
+        url: ele.attr('action'),
+        data: ele.serialize(),
+        success: function (data) {
+          console.log('Success..', data);
+          formCallback(mele, 'success', smsg);
+        },
+        error: function (data) {
+          console.log('Something went wrong..', data);
+          formCallback(mele, 'failure', 'Looks like Something went wrong, Please try again!');
+        },
+    });
+  }
+
+  function formCallback(ele, type, msg) {
+    ele.html(msg);
+    ele.addClass(type);
+    setTimeout(()=> {
+      ele.html('');
+      ele.removeClass(type);
+    }, 5000);
+  }
+
 })(jQuery);
 
