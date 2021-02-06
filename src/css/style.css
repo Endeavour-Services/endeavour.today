@@ -1579,3 +1579,14 @@ h6 {
     margin-bottom: 25px;
   }
 }
+
+.formmsg{
+  font-size: 10px;
+  height: 0;
+}
+.formmsg.success{
+  color: green;
+}
+.formmsg.failure{
+  color: red;
+}

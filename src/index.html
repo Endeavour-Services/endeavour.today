@@ -710,8 +710,9 @@
                   <div class="footer-newsletter">
                     <h4>Our Newsletter</h4>
                     <p>We provide Better & Rapid solutions for your business.</p>
-                    <form action="https://endeavour-today-functions.azurewebsites.net/api/NewLetter" method="post">
-                      <input type="email" name="email"><input type="submit"  value="Subscribe">
+                    <form id="subscribeForm" action="https://endeavour-today-functions.azurewebsites.net/api/NewLetter" method="post">
+                      <input type="email" name="email"><input type="submit" value="Subscribe">
+                      <p class="formmsg"></p>
                     </form>
                   </div>
 
@@ -761,28 +762,30 @@
               
               <h4>Send us a message</h4>
               <p>We can grow better together. Let's talk! </p>
-              <form action="https://endeavour-today-functions.azurewebsites.net/api/Form" method="post" role="form" class="contactForm">
+              <form id="msgForm" action="https://endeavour-today-functions.azurewebsites.net/api/Form" method="post" role="form" class="contactForm">
                 <div class="form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <input required type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
+                  <input required type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                  <input required type="text" class="form-control" name="subject" id="subject" placeholder="Subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
                   <div class="validation"></div>
                 </div>
                 <div class="form-group">
-                  <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
+                  <textarea required class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Message"></textarea>
                   <div class="validation"></div>
                 </div>
 
-                <div id="sendmessage">Your message has been sent. Thank you!</div>
-                <div id="errormessage"></div>
-
+                <!-- <div id="sendmessage"></div>
+                <div id="errormessage"></div> -->
+                
                 <div class="text-center"><button type="submit" title="Send Message">Send Message</button></div>
+                <div class="formmsg text-center"></div>
+                
               </form>
             </div>
 
@@ -817,7 +820,8 @@
   <script src="lib/isotope/isotope.pkgd.min.js"></script>
   <script src="lib/lightbox/js/lightbox.min.js"></script>
   <!-- Contact Form JavaScript File -->
-  <script src="contactform/contactform.js"></script>
+  <!-- SM-Comment - Not need anymore!! -->
+  <!-- <script src="contactform/contactform.js"></script> -->
 
   <!-- Template Main Javascript File -->
   <script src="js/main.js"></script>
