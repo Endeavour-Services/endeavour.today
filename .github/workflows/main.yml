@@ -19,12 +19,11 @@ jobs:
         azcliversion: 2.0.72
         inlineScript: |
             cd src
+            # set subscription
+            az account set --subscription "Pay-As-You-Go"
+            # upload
             az storage blob upload-batch --account-name endeavourtoday -d '$web' -s .
-    - name: Purge CDN endpoint
-      uses: azure/CLI@v1
-      with:
-        azcliversion: 2.0.72
-        inlineScript: |
+            # purge endpoint
             az cdn endpoint purge --content-paths  "/*" --profile-name "endeavourtoday-main" --name "endeavourtoday" --resource-group "endeavour.today"
     - name: logout
       run: |
