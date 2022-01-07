@@ -16,13 +16,13 @@ jobs:
     - name: Upload to blob storage
       uses: azure/CLI@v1
       with:
-        azcliversion: 2.0.72
+        azcliversion: 2.30.0
         inlineScript: |
             cd src
             # set subscription
-            #az account set 
+            az account set --subscription "Pay-As-You-Go"
             # upload
-            az storage blob upload-batch --account-name endeavourtoday -d '$web' -s . --subscription "Pay-As-You-Go"
+            az storage blob upload-batch --account-name endeavourtoday -d '$web' -s .
             # purge endpoint
             az cdn endpoint purge --content-paths  "/*" --profile-name "endeavourtoday-main" --name "endeavourtoday" --resource-group "endeavour.today"
     - name: logout
